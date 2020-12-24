@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: My SAM App for Backend CLoud resume challenge.
+Description: Back end of visitor counter.
 Parameters:
   DynamoDBTableName:
     Description: 'The name of the DynamoDB table for the visitor count'
@@ -51,7 +51,7 @@ Resources:
     Properties:
       CodeUri: lambda/
       Handler: visitor_count.lambda_handler
-      Runtime: python3.7
+      Runtime: python3.8
       Role: !GetAtt VisitorCounterFunctionRole.Arn
       Environment:
         Variables:
@@ -63,10 +63,7 @@ Resources:
             Path: /visitor-count
             Method: get
 
-    # TODO:
     # API Gateway
-    # Custom domain name
-    # Api Mapping
 
 Outputs:
   VisitorCountApi:

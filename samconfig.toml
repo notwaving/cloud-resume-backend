@@ -3,9 +3,9 @@ version = 0.1
 [default.deploy]
 [default.deploy.parameters]
 stack_name = "cloud-resume-sam-app"
-s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-s4a7bxkophjs"
+s3_bucket = ""
 s3_prefix = "cloud-resume-sam-app"
-region = "ap-southeast-1"
+region = "eu-west-2"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
 parameter_overrides = "DynamoDBTableName=\"cloud-resume-counter\""

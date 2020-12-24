@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Back end of visitor counter.
+Parameters:
+  DynamoDBTableName:
+    Description: The name of the DynamoDB table for the visitor count
+    Type: String
+Resources:
+  DDBTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName:
+        Ref: DynamoDBTableName
+      PrimaryKey:
+        Name: id
+        Type: String
+  VisitorCounterFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: /
+      Policies:
+      - PolicyName: dynamodbAccessRole
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            Resource:
+              Fn::Sub: arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${DDBTable}
+          - Effect: Allow
+            Action:
+            - logs:*
+            Resource: '*'
+  VisitorCountFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: VisitorCountFunction
+      Handler: visitor_count.lambda_handler
+      Runtime: python3.8
+      Role:
+        Fn::GetAtt:
+        - VisitorCounterFunctionRole
+        - Arn
+      Environment:
+        Variables:
+          databaseName:
+            Ref: DDBTable
+      Events:
+        VisitorCounter:
+          Type: Api
+          Properties:
+            Path: /visitor-count
+            Method: get
+Outputs:
+  VisitorCountApi:
+    Description: API Gateway endpoint URL for Prod stage for Visitor Count function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visitor-count/
