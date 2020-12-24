@@ -68,4 +68,5 @@ Resources:
 Outputs:
   VisitorCountApi:
     Description: 'API Gateway endpoint URL for Prod stage for Visitor Count function'
-    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visitor-count/'
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visitor-count/
