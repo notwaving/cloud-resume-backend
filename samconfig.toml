@@ -3,7 +3,7 @@ version = 0.1
 [default.deploy]
 [default.deploy.parameters]
 stack_name = "cloud-resume-sam-app"
-s3_bucket = ""
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1rcenmlcgymet"
 s3_prefix = "cloud-resume-sam-app"
 region = "eu-west-2"
 confirm_changeset = true

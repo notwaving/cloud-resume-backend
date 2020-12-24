@@ -11,7 +11,7 @@ def lambda_handler(event, context):
     table = dynamodb.Table(ddbTableName)
     # table = dynamodb.Table("tvq-cloud-resume-counter")
 
-    # Update item in table or add if doesn't exist
+    # Atomic update item in table or add if doesn't exist
     ddbResponse = table.update_item(
         Key={"id": "visitorCount"},
         UpdateExpression="ADD amount :inc",
@@ -30,9 +30,9 @@ def lambda_handler(event, context):
         "statusCode": 200,
         "body": responseBody,
         "headers": {
-            "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with",
+            "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET,OPTIONS",
+            "Access-Control-Allow-Methods": "GET,OPTIONS,POST",
         },
     }
 

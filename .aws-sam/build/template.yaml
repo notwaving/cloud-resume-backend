@@ -63,8 +63,19 @@ Resources:
           Properties:
             Path: /visitor-count
             Method: get
-Outputs:
   VisitorCountApi:
-    Description: API Gateway endpoint URL for Prod stage for Visitor Count function
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      RestApiId:
+        Ref: MyApi
+      Description: API Gateway endpoint URL
+      StageName: Prod
+      Cors:
+        AllowMethods: POST, GET, OPTIONS
+        AllowHeaders: X-Forwarded-For, Content-Type, Access-Control-Allow-Headers,
+          Authorization, X-Requested-With
+        AllowOrigin: '*'
+        MaxAge: '600'
+        AllowCredentials: true
     Value:
       Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visitor-count/
