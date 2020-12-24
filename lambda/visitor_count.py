@@ -30,7 +30,7 @@ def lambda_handler(event, context):
         "statusCode": 200,
         "body": responseBody,
         "headers": {
-            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "GET,OPTIONS,POST",
         },
