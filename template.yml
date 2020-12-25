@@ -1,6 +1,16 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Back end of visitor counter.
+
+Globals:
+  Api:
+    Cors:
+      AllowOrigin: "'*'"
+      AllowMethods: "'OPTION,GET'"
+      AllowHeaders: "'*'"
+  Function:
+    Timeout: 3
+
 Parameters:
   DynamoDBTableName:
     Description: 'The name of the DynamoDB table for the visitor count'
@@ -15,7 +25,7 @@ Resources:
         Name: id
         Type: String
 
-  # Lambda role to access DynamoDB
+  # Lambda IAM role to access DynamoDB
   VisitorCounterFunctionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -61,20 +71,30 @@ Resources:
           Type: Api
           Properties:
             Path: /visitor-count
-            Method: get
+            Method: GET
 
+Outputs:
   # API Gateway
   VisitorCountApi:
-    Type: AWS::ApiGateway::Deployment
-    Properties:
-      RestApiId: !Ref MyApi
-      Description: API Gateway endpoint URL
-      StageName: Prod
-      Cors:
-        AllowMethods: 'POST, GET, OPTIONS'
-        AllowHeaders: 'X-Forwarded-For, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With'
-        AllowOrigin: '*'
-        MaxAge: '600'
-        AllowCredentials: True
-    Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visitor-count/
+    # Type: AWS::ApiGateway::Deployment
+    # Properties:
+    #   RestApiId: !Ref MyApi
+    Description:
+      API Gateway endpoint URL
+      # StageName: Prod
+      # Cors:
+      #   AllowMethods: 'POST, GET, OPTIONS'
+      #   AllowHeaders: 'X-Forwarded-For, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With'
+      #   AllowOrigin: '*'
+      #   MaxAge: '600'
+      #   AllowCredentials: True
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visitor-count/'
+  VisitorCountFunction:
+    Description: Lambda function ARN
+    Value: !GetAtt VisitorCountFunction.Arn
+  VisitorCounterFunctionRole:
+    Description: IAM role created for Lambda function
+    Value: !GetAtt VisitorCounterFunctionRole.Arn
+  DDBTable:
+    Description: DynamoDB table to store visitor count
+    Value: !GetAtt DDBTable.Arn
