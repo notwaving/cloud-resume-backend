@@ -65,6 +65,15 @@ Resources:
         Variables:
           databaseName:
             Ref: DDBTable
+      MemorySize: 128
+      Timeout: 3
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName:
+            Ref: DDBTable
+      - DynamoDBWritePolicy:
+          TableName:
+            Ref: DDBTable
       Events:
         VisitorCounter:
           Type: Api

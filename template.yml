@@ -66,6 +66,15 @@ Resources:
       Environment:
         Variables:
           databaseName: !Ref DDBTable
+
+      MemorySize: 128
+      Timeout: 3
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref DDBTable
+        - DynamoDBWritePolicy:
+            TableName: !Ref DDBTable
+
       Events:
         VisitorCounter:
           Type: Api
@@ -74,20 +83,8 @@ Resources:
             Method: GET
 
 Outputs:
-  # API Gateway
   VisitorCountApi:
-    # Type: AWS::ApiGateway::Deployment
-    # Properties:
-    #   RestApiId: !Ref MyApi
-    Description:
-      API Gateway endpoint URL
-      # StageName: Prod
-      # Cors:
-      #   AllowMethods: 'POST, GET, OPTIONS'
-      #   AllowHeaders: 'X-Forwarded-For, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With'
-      #   AllowOrigin: '*'
-      #   MaxAge: '600'
-      #   AllowCredentials: True
+    Description: API Gateway endpoint URL
     Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visitor-count/'
   VisitorCountFunction:
     Description: Lambda function ARN
