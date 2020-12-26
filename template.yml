@@ -59,7 +59,7 @@ Resources:
   VisitorCountFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: lambda/
+      CodeUri: VisitorCountFunction/
       Handler: visitor_count.lambda_handler
       Runtime: python3.8
       Role: !GetAtt VisitorCounterFunctionRole.Arn
