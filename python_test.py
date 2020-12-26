@@ -23,7 +23,6 @@ def test_Env():
 #     assert 200 == response['statusCode'], message
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test_Env()
-    # test_negative()
-return ("Everything passes")
+    print("Everything passed")
