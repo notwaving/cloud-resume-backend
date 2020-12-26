@@ -9,7 +9,6 @@ def lambda_handler(event, context):
     # Set dynamodb table name variable from env
     ddbTableName = os.environ["databaseName"]
     table = dynamodb.Table(ddbTableName)
-    # table = dynamodb.Table("tvq-cloud-resume-counter")
 
     # Atomic update item in table or add if doesn't exist
     ddbResponse = table.update_item(

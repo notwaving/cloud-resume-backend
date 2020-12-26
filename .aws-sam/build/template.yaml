@@ -86,7 +86,7 @@ Outputs:
     Value:
       Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visitor-count/
   VisitorCountFunction:
-    Description: Lambda function ARN
+    Description: Lambda function
     Value:
       Fn::GetAtt:
       - VisitorCountFunction

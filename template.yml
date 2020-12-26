@@ -87,7 +87,7 @@ Outputs:
     Description: API Gateway endpoint URL
     Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visitor-count/'
   VisitorCountFunction:
-    Description: Lambda function ARN
+    Description: Lambda function
     Value: !GetAtt VisitorCountFunction.Arn
   VisitorCounterFunctionRole:
     Description: IAM role created for Lambda function
