@@ -9,9 +9,7 @@ def lambda_handler(event, context):
     # dynamodb = boto3.resource('dynamodb', region_name='eu-west-2')
     # Set dynamodb table name variable from env
     ddbTableName = os.environ["databaseName"]
-    # DDBTable = os.environ["databaseName"]
     table = dynamodb.Table(ddbTableName)
-    # table = dynamodb.Table('DDBTable')
 
     # Atomic update item in table or add if doesn't exist
     ddbResponse = table.update_item(
